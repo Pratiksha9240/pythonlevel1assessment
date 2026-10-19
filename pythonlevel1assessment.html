@@ -1,0 +1,855 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Fundamentals Assessment - Pratyaksha Coding Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@500;600;700&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+:root {
+  --navy:#1B365D;
+  --navy-dark:#0F223D;
+  --blue:#2563EB;
+  --blue-light:#3B82F6;
+  --pale:#E0F2FE;
+  --black:#0F172A;
+  --grey:#334155;
+  --muted:#64748B;
+  --red:#EF4444;
+  --green:#22C55E;
+}
+* { box-sizing:border-box; }
+body {
+  margin:0;
+  background:var(--navy-dark);
+  color:var(--black);
+  font-family:Montserrat,sans-serif;
+}
+button,input,textarea { font:inherit; }
+.academy-header {
+  position:sticky; top:0; z-index:10;
+  background:var(--navy); color:white;
+  border-bottom:2px solid var(--blue);
+  padding:14px 24px;
+  display:flex; align-items:center;
+  justify-content:space-between; gap:16px;
+}
+.brand { display:flex; align-items:center; gap:12px; }
+.brand-icon {
+  width:42px; height:42px; border-radius:12px;
+  display:grid; place-items:center;
+  background:white; color:var(--navy); font-size:20px;
+}
+.brand h1 { font-size:14px; margin:0 0 4px; }
+.brand p { margin:0; color:#BFDBFE; font-size:11px; }
+.header-actions button {
+  width:40px; height:40px; border-radius:11px;
+  border:1px solid #64748B;
+  background:#ffffff15; color:white; cursor:pointer;
+}
+.progress-wrap { padding:14px 24px; background:#122945; color:white; }
+.progress-label {
+  display:flex; justify-content:space-between;
+  font-size:11px; margin-bottom:8px;
+}
+.progress-track {
+  height:6px; border-radius:10px;
+  background:#334155; overflow:hidden;
+}
+.progress-bar {
+  height:100%; width:0;
+  background:var(--blue-light); transition:width .25s;
+}
+main { max-width:1000px; margin:24px auto; padding:0 16px 30px; }
+.panel {
+  background:white; border-radius:22px; padding:26px;
+  margin-bottom:20px; box-shadow:0 12px 30px #00000018;
+}
+.eyebrow {
+  display:inline-block; padding:6px 10px; border-radius:7px;
+  background:var(--pale); color:var(--blue);
+  font-size:10px; font-weight:800;
+  text-transform:uppercase; letter-spacing:.7px;
+}
+h2 { color:var(--navy); font-size:22px; margin:14px 0 8px; }
+h3 { font-size:15px; line-height:1.6; margin:0 0 12px; }
+p { line-height:1.7; }
+.muted { color:var(--muted); font-size:12px; }
+.fields {
+  display:grid; grid-template-columns:1fr 1fr;
+  gap:14px; margin-top:18px;
+}
+label.field { display:block; font-size:12px; font-weight:700; }
+.field input {
+  display:block; width:100%; margin-top:7px; padding:12px;
+  border:1px solid #CBD5E1; border-radius:10px;
+  outline-color:var(--blue);
+}
+.section-title {
+  display:flex; align-items:center;
+  justify-content:space-between; gap:12px; margin-bottom:16px;
+}
+.section-title h2 { margin:0; }
+.question {
+  border:1px solid #E2E8F0; border-radius:16px;
+  padding:18px; margin-top:14px; background:white;
+}
+.question-top {
+  display:flex; align-items:center;
+  justify-content:space-between; gap:12px; margin-bottom:12px;
+}
+.q-number { color:var(--blue); font-weight:800; font-size:12px; }
+.bloom {
+  background:#F1F5F9; color:var(--grey);
+  border-radius:6px; padding:5px 8px;
+  font-size:10px; font-weight:700;
+}
+.options { display:grid; grid-template-columns:1fr 1fr; gap:9px; }
+.option {
+  width:100%; min-height:48px; padding:12px;
+  display:flex; align-items:center; gap:10px;
+  text-align:left; border:2px solid #E2E8F0;
+  border-radius:11px; background:white; color:var(--black);
+  cursor:pointer; font-size:12px; font-weight:600;
+  line-height:1.5; transition:.15s;
+}
+.option:hover { border-color:var(--blue); background:#F8FAFC; }
+.option .letter {
+  display:grid; place-items:center; flex-shrink:0;
+  width:25px; height:25px; border-radius:7px;
+  background:#F1F5F9; color:var(--navy); font-weight:800;
+}
+.option.correct { border-color:var(--green); background:#F0FDF4; color:#166534; }
+.option.wrong { border-color:var(--red); background:#FEF2F2; color:#991B1B; }
+.feedback {
+  display:none; margin-top:12px; padding:12px;
+  border-radius:10px; font-size:12px; line-height:1.7;
+}
+.feedback.show { display:block; }
+.feedback.good { background:#F0FDF4; color:#166534; }
+.feedback.bad { background:#FEF2F2; color:#991B1B; }
+.code-card {
+  border:1px solid #E2E8F0; border-radius:16px;
+  margin-top:14px; overflow:hidden;
+}
+.code-card-head {
+  padding:16px; background:#F8FAFC;
+  border-bottom:1px solid #E2E8F0;
+}
+.difficulty {
+  display:inline-block; padding:5px 8px; border-radius:6px;
+  background:#DBEAFE; color:#1D4ED8;
+  font-size:10px; font-weight:800; text-transform:uppercase;
+}
+.difficulty.hard { background:#FEE2E2; color:#991B1B; }
+.code-card textarea {
+  width:100%; min-height:190px; resize:vertical;
+  display:block; border:0; outline-color:var(--blue);
+  padding:16px; font:12px/1.7 "Fira Code",monospace;
+  color:#E2E8F0; background:var(--black);
+}
+.btn {
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:9px; border:0; border-radius:11px; padding:12px 17px;
+  background:var(--blue); color:white; font-weight:800;
+  font-size:12px; cursor:pointer; transition:.15s; margin:6px;
+}
+.btn:hover { background:#1D4ED8; transform:translateY(-1px); }
+.btn.secondary { background:var(--navy); }
+.result {
+  display:none; margin-top:16px; padding:16px;
+  border-radius:12px; background:var(--pale); color:var(--navy);
+  text-align:left;
+}
+.result.show { display:block; }
+.error-box {
+  padding:16px; border:1px solid #FCA5A5;
+  border-radius:12px; color:#991B1B; background:#FEF2F2;
+}
+footer { text-align:center; color:#CBD5E1; font-size:11px; padding:0 16px 24px; }
+code { font-family:"Fira Code",monospace; font-size:.95em; }
+
+@media(max-width:650px) {
+  .academy-header { padding:12px; }
+  .brand h1 { font-size:12px; }
+  .brand p { font-size:10px; }
+  .brand-icon { width:34px; height:34px; }
+  main { padding:0 10px 20px; margin-top:14px; }
+  .panel { padding:17px; border-radius:16px; }
+  .fields,.options { grid-template-columns:1fr; }
+  h2 { font-size:19px; }
+  .question { padding:13px; }
+}
+</style>
+</head>
+<body>
+
+<header class="academy-header">
+  <div class="brand">
+    <div class="brand-icon"><img class="brand-icon" src="logooutcut.png" alt=""></div>
+    <div>
+      <h1>Pratyaksha Coding Academy</h1>
+      <p>Python Fundamentals Assessment</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <button id="soundBtn" type="button" title="Toggle sound" aria-label="Toggle sound">
+      <i class="fa-solid fa-volume-high"></i>
+    </button>
+  </div>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-label">
+    <span>ASSESSMENT PROGRESS</span>
+    <span id="progressText">0 / 35 completed</span>
+  </div>
+  <div class="progress-track">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</div>
+
+<main>
+  <section class="panel">
+    <span class="eyebrow">Student details</span>
+    <h2>Python Fundamentals</h2>
+    <p class="muted">
+      Answer all 30 MCQs and attempt all 5 coding challenges.
+      Download your work at the end and send the file to your teacher.
+    </p>
+    <div class="fields">
+      <label class="field">Student name
+        <input id="studentName" type="text" placeholder="Enter your full name">
+      </label>
+      <label class="field">Email address
+        <input id="studentEmail" type="email" placeholder="Enter your email">
+      </label>
+    </div>
+    <p class="muted">
+      Topics: print, variables, inputs and data types, if/elif/else,
+      for and while loops, lists, tuples, dictionaries, sets, functions,
+      parameters, return statements and try/except.
+    </p>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <div><span class="eyebrow">Part A</span><h2>Quiz</h2></div>
+      <span class="bloom">30 QUESTIONS</span>
+    </div>
+    <p class="muted">Choose one answer per question. Feedback appears after you select an option. You can change your answer.</p>
+    <div id="quiz"><p>Loading questions...</p></div>
+  </section>
+
+  <section class="panel">
+    <div class="section-title">
+      <div><span class="eyebrow">Part B</span><h2>Coding challenges</h2></div>
+      <span class="bloom">5 CHALLENGES</span>
+    </div>
+    <p class="muted">Write your Python code in each editor. Your responses will be included in the downloaded submission but will not be executed or automatically graded.</p>
+    <div id="challenges"><p>Loading challenges...</p></div>
+  </section>
+
+  <section class="panel">
+    <span class="eyebrow">Final step</span>
+    <h2>Download your assessment</h2>
+    <p class="muted">Your file will contain your student details, quiz answers, score, explanations and coding responses.</p>
+    <button class="btn" id="downloadBtn" type="button">
+      <i class="fa-solid fa-file-word"></i> Download my answers
+    </button>
+    <button class="btn secondary" id="scoreBtn" type="button">
+      <i class="fa-solid fa-chart-simple"></i> Check my score
+    </button>
+    <div id="result" class="result" aria-live="polite"></div>
+  </section>
+</main>
+
+<footer>Pratyaksha Coding Academy · Python Fundamentals Assessment</footer>
+
+<script>
+"use strict";
+
+const questions = [
+  {
+    bloom:"Remember",
+    q:"Which function displays text or a value on the screen?",
+    options:["input()","print()","show()","display_text()"],
+    answer:1,
+    why:"print() displays text and values in the output."
+  },
+  {
+    bloom:"Apply",
+    q:"What is the output of print('Hello', 'Python')?",
+    options:["HelloPython","'Hello', 'Python'","Hello Python","Error"],
+    answer:2,
+    why:"print() separates multiple arguments with a space by default."
+  },
+  {
+    bloom:"Understand",
+    q:"What is a variable used for?",
+    options:["To store a value under a name","Only to print text","To end a program","To repeat a loop"],
+    answer:0,
+    why:"A variable name refers to a value that a program can use."
+  },
+  {
+    bloom:"Apply",
+    q:"Which is a valid Python variable name?",
+    options:["2score","student-name","student_name","class"],
+    answer:2,
+    why:"student_name is valid. Names cannot start with a digit, hyphens are not allowed, and class is a keyword."
+  },
+  {
+    bloom:"Remember",
+    q:"What type of value is 3.14?",
+    options:["int","str","float","bool"],
+    answer:2,
+    why:"A number with a decimal point is a float."
+  },
+  {
+    bloom:"Understand",
+    q:"What data type does input() return by default?",
+    options:["int","str","bool","list"],
+    answer:1,
+    why:"input() returns the entered text as a string, even if the user types digits."
+  },
+  {
+    bloom:"Apply",
+    q:"Which converts the string '12' to an integer?",
+    options:["str('12')","int('12')","float_text('12')","input(12)"],
+    answer:1,
+    why:"int('12') converts the string containing digits into the integer 12."
+  },
+  {
+    bloom:"Remember",
+    q:"Which value is a Boolean?",
+    options:["'True'","1.0","True","'False'"],
+    answer:2,
+    why:"True without quotation marks is a Boolean value. Quoted values are strings."
+  },
+  {
+    bloom:"Apply",
+    q:"What will this code print?\nage = 14\nif age >= 13:\n    print('Teen')\nelse:\n    print('Child')",
+    options:["Child","Teen","14","Nothing"],
+    answer:1,
+    why:"Since 14 is greater than or equal to 13, the if branch runs."
+  },
+  {
+    bloom:"Understand",
+    q:"When should you use elif?",
+    options:["To test another condition if earlier conditions were false","To define a function","To repeat a block forever","To create a list"],
+    answer:0,
+    why:"elif lets you check another condition after a preceding if condition is false."
+  },
+  {
+    bloom:"Apply",
+    q:"What is printed?\nscore = 75\nif score >= 90:\n    print('A')\nelif score >= 70:\n    print('B')\nelse:\n    print('C')",
+    options:["A","B","C","A and B"],
+    answer:1,
+    why:"75 is below 90 but at least 70, so the elif branch prints B."
+  },
+  {
+    bloom:"Understand",
+    q:"What is the purpose of else in an if/elif/else structure?",
+    options:["Runs only when all preceding conditions are false","Always runs first","Repeats the if condition","Stops Python from running"],
+    answer:0,
+    why:"The else block handles the case when none of the preceding conditions is true."
+  },
+  {
+    bloom:"Remember",
+    q:"Which loop is commonly used to go through each item in a list?",
+    options:["if loop","for loop","define loop","try loop"],
+    answer:1,
+    why:"A for loop iterates over items in a sequence such as a list."
+  },
+  {
+    bloom:"Apply",
+    q:"How many times does this loop print a number?\nfor i in range(3):\n    print(i)",
+    options:["2","3","4","It never runs"],
+    answer:1,
+    why:"range(3) produces 0, 1 and 2, so the loop runs three times."
+  },
+  {
+    bloom:"Understand",
+    q:"When is a while loop especially useful?",
+    options:["When repeating while a condition remains true","Only when storing key-value pairs","When defining a tuple","Only for printing strings"],
+    answer:0,
+    why:"A while loop continues as long as its condition evaluates to true."
+  },
+  {
+    bloom:"Analyse",
+    q:"What must you be careful about in a while loop?",
+    options:["Making sure the condition can eventually become false when needed","Using only strings","Never changing any variable","Always using range()"],
+    answer:0,
+    why:"If the condition never becomes false, the loop may run indefinitely."
+  },
+  {
+    bloom:"Remember",
+    q:"Which brackets are normally used to create a list?",
+    options:["()","{}","[]","<>"],
+    answer:2,
+    why:"Lists use square brackets, for example fruits = ['apple', 'pear']."
+  },
+  {
+    bloom:"Apply",
+    q:"What is the result of nums = [4, 8, 12]; print(nums[1])?",
+    options:["4","8","12","1"],
+    answer:1,
+    why:"List indexing starts at 0, so nums[1] is the second item, 8."
+  },
+  {
+    bloom:"Understand",
+    q:"Which statement about a list is true?",
+    options:["A list cannot change after creation","A list can be changed after creation","A list stores only integers","A list must contain unique values"],
+    answer:1,
+    why:"Lists are mutable: items can be added, removed or updated."
+  },
+  {
+    bloom:"Remember",
+    q:"Which brackets are commonly used to write a tuple?",
+    options:["[]","()","{}","||"],
+    answer:1,
+    why:"Tuples are commonly written with parentheses, such as (2, 5, 8)."
+  },
+  {
+    bloom:"Understand",
+    q:"What is a key difference between a list and a tuple?",
+    options:["Tuples are immutable; lists are mutable","Lists are immutable; tuples are mutable","Tuples can only hold strings","Lists cannot contain numbers"],
+    answer:0,
+    why:"A tuple cannot have its items reassigned after creation, while a list can be changed."
+  },
+  {
+    bloom:"Remember",
+    q:"What does a dictionary store?",
+    options:["Only single values without labels","Key-value pairs","Only unique numbers","A fixed sequence of characters"],
+    answer:1,
+    why:"Dictionaries map keys to values, such as {'name': 'Asha'}."
+  },
+  {
+    bloom:"Apply",
+    q:"Given student = {'name': 'Asha', 'age': 13}, how do you access the age?",
+    options:["student.age","student[age]","student['age']","student(1)"],
+    answer:2,
+    why:"Use the key as a string in brackets: student['age']."
+  },
+  {
+    bloom:"Understand",
+    q:"What is a set useful for?",
+    options:["Keeping duplicate items in order","Storing unique items","Storing only key-value pairs","Making a variable constant"],
+    answer:1,
+    why:"Sets contain unique elements, so duplicate values are removed."
+  },
+  {
+    bloom:"Apply",
+    q:"What is the value of len(set([1, 1, 2, 3]))?",
+    options:["4","3","2","1"],
+    answer:1,
+    why:"The set keeps only 1, 2 and 3, so its length is 3."
+  },
+  {
+    bloom:"Remember",
+    q:"Which keyword starts a function definition in Python?",
+    options:["function","fun","def","return"],
+    answer:2,
+    why:"Python functions are defined using the def keyword."
+  },
+  {
+    bloom:"Understand",
+    q:"In def greet(name):, what is name?",
+    options:["A parameter","A return value","A loop","A data type"],
+    answer:0,
+    why:"name is a parameter that receives a value when the function is called."
+  },
+  {
+    bloom:"Apply",
+    q:"What does return do inside a function?",
+    options:["Displays a value automatically","Sends a result back to the caller","Repeats the function forever","Creates a dictionary"],
+    answer:1,
+    why:"return passes a result back to the code that called the function."
+  },
+  {
+    bloom:"Analyse",
+    q:"What will this code print?\ndef double(n):\n    return n * 2\nprint(double(4))",
+    options:["4","6","8","n * 2"],
+    answer:2,
+    why:"double(4) returns 4 * 2, which is 8, and print displays it."
+  },
+  {
+    bloom:"Understand",
+    q:"What is the purpose of try/except?",
+    options:["To repeat a loop","To handle certain errors without immediately stopping the program","To define a tuple","To convert every value to a string"],
+    answer:1,
+    why:"Code in try is attempted; an except block can handle a matching error."
+  }
+];
+
+const challenges = [
+  {
+    level:"Easy",
+    title:"Input, variables and data types",
+    prompt:"Ask the user for their name and age. Convert the age to an integer, then print a friendly message that includes the name and the age next year."
+  },
+  {
+    level:"Easy",
+    title:"Conditions and loops",
+    prompt:"Ask the user for a number. Use if/elif/else to report whether it is positive, negative or zero. Then use a for loop to print the numbers from 1 to that number if it is positive."
+  },
+  {
+    level:"Medium",
+    title:"Lists, tuples, dictionaries and sets",
+    prompt:"Create a list of five favourite foods and print each food using a loop. Create a tuple containing three colours. Create a dictionary with a student's name and grade. Create a set from a list containing duplicate numbers and print the set."
+  },
+  {
+    level:"Medium",
+    title:"Function with parameters and return",
+    prompt:"Write a function called calculate_total(price, quantity) that returns price multiplied by quantity. Call it with sample values and print the returned total."
+  },
+  {
+    level:"Hard",
+    title:"Safe number input with try/except",
+    prompt:"Ask the user to enter two numbers. Use try/except to handle invalid numeric input. If both values are valid, print their sum. Include a helpful message if the user enters something that cannot be converted to a number."
+  }
+];
+
+const selectedAnswers = {};
+let soundEnabled = true;
+let audioContext = null;
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, char => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[char]);
+}
+
+function playSound(type) {
+  if (!soundEnabled) return;
+  try {
+    const AudioClass = window.AudioContext || window.webkitAudioContext;
+    if (!AudioClass) return;
+    if (!audioContext) audioContext = new AudioClass();
+    if (audioContext.state === "suspended") audioContext.resume();
+
+    const oscillator = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    oscillator.connect(gain);
+    gain.connect(audioContext.destination);
+
+    const now = audioContext.currentTime;
+    const wrong = type === "wrong";
+    oscillator.type = wrong ? "sawtooth" : "triangle";
+    oscillator.frequency.setValueAtTime(wrong ? 180 : 520, now);
+    oscillator.frequency.exponentialRampToValueAtTime(wrong ? 110 : 720, now + 0.12);
+    gain.gain.setValueAtTime(0.06, now);
+    gain.gain.exponentialRampToValueAtTime(0.001, now + 0.16);
+    oscillator.start(now);
+    oscillator.stop(now + 0.16);
+  } catch (error) {
+    // Sound is optional.
+  }
+}
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+  document.querySelector("#soundBtn i").className =
+    soundEnabled ? "fa-solid fa-volume-high" : "fa-solid fa-volume-xmark";
+  if (soundEnabled) playSound("correct");
+}
+
+function renderQuiz() {
+  const host = document.getElementById("quiz");
+  if (!host) throw new Error("Quiz container was not found.");
+  if (questions.length !== 30) throw new Error("The quiz must contain exactly 30 questions.");
+
+  host.replaceChildren();
+
+  questions.forEach((q, i) => {
+    const card = document.createElement("article");
+    card.className = "question";
+    card.id = "question-" + i;
+
+    const top = document.createElement("div");
+    top.className = "question-top";
+
+    const number = document.createElement("span");
+    number.className = "q-number";
+    number.textContent = `QUESTION ${i + 1} / ${questions.length}`;
+
+    const bloom = document.createElement("span");
+    bloom.className = "bloom";
+    bloom.textContent = q.bloom;
+    top.append(number, bloom);
+
+    const heading = document.createElement("h3");
+    heading.style.whiteSpace = "pre-line";
+    heading.textContent = q.q;
+
+    const options = document.createElement("div");
+    options.className = "options";
+
+    q.options.forEach((option, j) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "option";
+      button.setAttribute("aria-pressed", "false");
+
+      const letter = document.createElement("span");
+      letter.className = "letter";
+      letter.textContent = String.fromCharCode(65 + j);
+
+      const text = document.createElement("span");
+      text.textContent = option;
+
+      button.append(letter, text);
+      button.addEventListener("click", () => chooseAnswer(i, j));
+      options.appendChild(button);
+    });
+
+    const feedback = document.createElement("div");
+    feedback.className = "feedback";
+    feedback.id = "feedback-" + i;
+    feedback.setAttribute("aria-live", "polite");
+
+    card.append(top, heading, options, feedback);
+    host.appendChild(card);
+  });
+}
+
+function chooseAnswer(questionIndex, answerIndex) {
+  const q = questions[questionIndex];
+  if (!q) return;
+
+  selectedAnswers[questionIndex] = answerIndex;
+
+  const card = document.getElementById("question-" + questionIndex);
+  const feedback = document.getElementById("feedback-" + questionIndex);
+
+  card.querySelectorAll(".option").forEach((button, j) => {
+    button.classList.remove("correct", "wrong");
+    const selected = j === answerIndex;
+    button.setAttribute("aria-pressed", String(selected));
+    if (selected) button.classList.add(j === q.answer ? "correct" : "wrong");
+  });
+
+  if (answerIndex === q.answer) {
+    feedback.className = "feedback show good";
+    feedback.textContent = "Correct! " + q.why;
+    playSound("correct");
+  } else {
+    feedback.className = "feedback show bad";
+    feedback.textContent = "Not quite. " + q.why + " Try selecting another option.";
+    playSound("wrong");
+  }
+
+  updateProgress();
+}
+
+function renderChallenges() {
+  const host = document.getElementById("challenges");
+  if (!host) throw new Error("Coding challenges container was not found.");
+  if (challenges.length !== 5) throw new Error("There must be exactly five coding challenges.");
+
+  host.replaceChildren();
+
+  challenges.forEach((challenge, i) => {
+    const card = document.createElement("div");
+    card.className = "code-card";
+
+    const head = document.createElement("div");
+    head.className = "code-card-head";
+
+    const badge = document.createElement("span");
+    badge.className = "difficulty" + (challenge.level === "Hard" ? " hard" : "");
+    badge.textContent = challenge.level;
+
+    const heading = document.createElement("h3");
+    heading.style.margin = "10px 0 5px";
+    heading.textContent = `Challenge ${i + 1}: ${challenge.title}`;
+
+    const prompt = document.createElement("p");
+    prompt.className = "muted";
+    prompt.style.margin = "0";
+    prompt.textContent = challenge.prompt;
+
+    const textarea = document.createElement("textarea");
+    textarea.id = "code-" + i;
+    textarea.spellcheck = false;
+    textarea.setAttribute("aria-label", `Code for challenge ${i + 1}`);
+    textarea.placeholder = "# Write your Python code here...";
+    textarea.addEventListener("input", updateProgress);
+
+    head.append(badge, heading, prompt);
+    card.append(head, textarea);
+    host.appendChild(card);
+  });
+}
+
+function getScore() {
+  return questions.reduce(
+    (score, q, i) => score + (selectedAnswers[i] === q.answer ? 1 : 0),
+    0
+  );
+}
+
+function updateProgress() {
+  const answered = Object.keys(selectedAnswers).length;
+  const coded = challenges.filter((_, i) => {
+    const field = document.getElementById("code-" + i);
+    return field && field.value.trim().length > 0;
+  }).length;
+
+  const total = answered + coded;
+  document.getElementById("progressText").textContent = `${total} / 35 completed`;
+  document.getElementById("progressBar").style.width = (total / 35 * 100) + "%";
+}
+
+function showScore() {
+  const score = getScore();
+  const answered = Object.keys(selectedAnswers).length;
+  const result = document.getElementById("result");
+
+  result.replaceChildren();
+  result.className = "result show";
+
+  const heading = document.createElement("strong");
+  heading.textContent = `Your current quiz score: ${score} / 30`;
+
+  const detail = document.createElement("p");
+  detail.textContent = `You have answered ${answered} of 30 questions.`;
+
+  const note = document.createElement("p");
+  note.className = "muted";
+  note.textContent = "Coding challenges are included in your submission but are not automatically graded.";
+
+  result.append(heading, detail, note);
+  result.scrollIntoView({ behavior:"smooth", block:"nearest" });
+  playSound("correct");
+}
+
+function downloadAssignment() {
+  const name = document.getElementById("studentName").value.trim();
+  const email = document.getElementById("studentEmail").value.trim();
+
+  if (!name) {
+    alert("Please enter your name before downloading.");
+    document.getElementById("studentName").focus();
+    return;
+  }
+
+  const score = getScore();
+
+  let doc = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+body { font-family:Arial,sans-serif; color:#0F172A; line-height:1.5; }
+h1,h2 { color:#1B365D; }
+.meta { background:#E0F2FE; padding:12px; }
+.question { margin-bottom:18px; padding-bottom:12px; border-bottom:1px solid #CBD5E1; }
+.answer { color:#1B365D; font-weight:bold; }
+pre { white-space:pre-wrap; overflow-wrap:break-word; font-family:Consolas,monospace; background:#F1F5F9; padding:12px; }
+</style>
+</head>
+<body>
+<h1>Pratyaksha Coding Academy</h1>
+<h2>Python Fundamentals Assessment</h2>
+<div class="meta">
+<p><b>Student name:</b> ${escapeHTML(name)}</p>
+<p><b>Email:</b> ${escapeHTML(email || "Not provided")}</p>
+<p><b>Quiz score:</b> ${score} / 30</p>
+</div>
+<h2>Part A — Quiz Answers</h2>`;
+
+  questions.forEach((q, i) => {
+    const selected = selectedAnswers[i];
+    const answer = selected === undefined
+      ? "Not answered"
+      : String.fromCharCode(65 + selected) + ". " + escapeHTML(q.options[selected]);
+
+    const status = selected === undefined
+      ? "Not answered"
+      : selected === q.answer ? "Correct" : "Incorrect";
+
+    doc += `
+<div class="question">
+<p><b>Q${i + 1}.</b> ${escapeHTML(q.q).replace(/\n/g, "<br>")}</p>
+<p><b>Topic level:</b> ${escapeHTML(q.bloom)}</p>
+<p class="answer">Student's answer: ${answer}</p>
+<p><b>Status:</b> ${status}</p>
+<p><b>Explanation:</b> ${escapeHTML(q.why)}</p>
+</div>`;
+  });
+
+  doc += "<h2>Part B — Coding Challenges</h2>";
+
+  challenges.forEach((challenge, i) => {
+    const field = document.getElementById("code-" + i);
+    const code = field ? field.value.trim() : "";
+
+    doc += `
+<div class="question">
+<h3>Challenge ${i + 1}: ${escapeHTML(challenge.title)} (${escapeHTML(challenge.level)})</h3>
+<p>${escapeHTML(challenge.prompt)}</p>
+<p><b>Student's code:</b></p>
+<pre>${escapeHTML(code || "No code submitted.")}</pre>
+</div>`;
+  });
+
+  doc += `<p>End of assessment — ${escapeHTML(name)}</p></body></html>`;
+
+  const blob = new Blob(["\ufeff", doc], { type:"application/msword" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  const safeName = name.replace(/[^a-z0-9_-]+/gi, "_");
+
+  link.href = url;
+  link.download = safeName + "_Python_Fundamentals_Assessment.doc";
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
+}
+
+function initialiseAssignment() {
+  try {
+    renderQuiz();
+    renderChallenges();
+    updateProgress();
+  } catch (error) {
+    console.error("Assessment initialisation failed:", error);
+    const quiz = document.getElementById("quiz");
+
+    if (quiz) {
+      quiz.replaceChildren();
+      const box = document.createElement("div");
+      box.className = "error-box";
+
+      const heading = document.createElement("strong");
+      heading.textContent = "The assessment could not load.";
+
+      const detail = document.createElement("p");
+      detail.textContent = error.message;
+
+      box.append(heading, detail);
+      quiz.appendChild(box);
+    }
+  }
+}
+
+document.getElementById("soundBtn").addEventListener("click", toggleSound);
+document.getElementById("downloadBtn").addEventListener("click", downloadAssignment);
+document.getElementById("scoreBtn").addEventListener("click", showScore);
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initialiseAssignment);
+} else {
+  initialiseAssignment();
+}
+</script>
+</body>
+</html>
